@@ -13,15 +13,20 @@ client.on('message_create', message => {
     console.log(`📩 New message: ${message.body}`);
     // console.log(message);
 
+    if (message.isGroupMsg) {
+        console.log('📢 Ignoring group message.');
+        return; // Ignore group messages
+    }
+
     // Allow the bot to respond to messages sent by yourself
     if (message.fromMe && message.body.toLowerCase() === 'hello') {
         message.reply('Hey there! I am your WhatsApp bot. 😊');
     }
 
     // Handle messages from others
-/*     if (!message.fromMe && message.body.toLowerCase() === 'hello') {
-        message.reply('Hey there! I am your WhatsApp bot. 😊');
-    } */
+    //  if (!message.fromMe && message.body.toLowerCase() === 'hello') {
+    //     message.reply('Hey there! I am your WhatsApp bot. 😊');
+    // } 
 });
 
 // Add error handling
