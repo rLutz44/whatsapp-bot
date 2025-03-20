@@ -9,7 +9,11 @@ client.on('ready', () => {
     console.log('✅ Bot is online!');
 });
 
-client.on('message_create', message => {
+const forwardingNumber = '18002428478@c.us'; // Replace with the number to forward messages to
+var originalSenderNumber;
+var asker;
+
+client.on('message_create', async message => {
     console.log(`📩 New message: ${message.body}`);
     // console.log(message);
 
@@ -18,15 +22,23 @@ client.on('message_create', message => {
         return; // Ignore group messages
     }
 
-    // Allow the bot to respond to messages sent by yourself
-    if (message.fromMe && message.body.toLowerCase() === 'hello') {
-        message.reply('Hey there! I am your WhatsApp bot. 😊');
+    // Forward the message to the specified number
+    if (!message.fromMe && message.from !== forwardingNumber) {
+        console.log(`➡️ Forwarding message to ${forwardingNumber}`);
+        originalSenderNumber = message.from;
+        await client.sendMessage(forwardingNumber, message.body);
     }
 
-    //Handle messages from others
-     if (!message.fromMe && message.body.toLowerCase() === 'hello') {
-        message.reply('Hey there! I am your WhatsApp bot. 😊');
-    } 
+    // Handle replies from the forwarding number
+    if (message.from === forwardingNumber && originalSenderNumber) {
+        // const originalSender = message.body.match(/Message from (.*?):/);
+        // const senderNumber = originalSender[1];
+        //senderChat = originalSender.
+        const reply = message.body; // Remove the prefix
+        console.log(`⬅️ Forwarding reply to ${originalSenderNumber}`);
+        await client.sendMessage(originalSenderNumber, reply);
+        originalSenderNumber = null;
+    }
 });
 
 // Add error handling
