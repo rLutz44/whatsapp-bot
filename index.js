@@ -23,10 +23,10 @@ client.on('message_create', message => {
         message.reply('Hey there! I am your WhatsApp bot. 😊');
     }
 
-    // Handle messages from others
-    //  if (!message.fromMe && message.body.toLowerCase() === 'hello') {
-    //     message.reply('Hey there! I am your WhatsApp bot. 😊');
-    // } 
+    //Handle messages from others
+     if (!message.fromMe && message.body.toLowerCase() === 'hello') {
+        message.reply('Hey there! I am your WhatsApp bot. 😊');
+    } 
 });
 
 // Add error handling
