@@ -10,16 +10,19 @@ client.on('ready', () => {
 });
 
 const forwardingNumber = '18002428478@c.us'; // Replace with the number to forward messages to
-var originalSenderNumber;
+var originalSenderNumber = null;
 var asker;
 
 client.on('message_create', async message => {
     console.log(`📩 New message: ${message.body}`);
     // console.log(message);
 
-    if (message.isGroupMsg) {
-        console.log('📢 Ignoring group message.');
-        return; // Ignore group messages
+    if (message.isGroupMsg || message.from.endsWith('@g.us')) {
+        if (!message.mentionedIds.includes(client.info.wid._serialized)) {
+            console.log('📢 Ignoring group message (bot not mentioned).');
+            return; // Ignore group messages where the bot is not mentioned
+        }
+        console.log('🔔 Bot was mentioned in a group message.');
     }
 
     // Forward the message to the specified number
