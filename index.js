@@ -69,6 +69,7 @@ client.on('disconnected', (reason) => {
 // Render QR code in the terminal
 client.on('qr', (qr) => {
     console.log('📱 Scan this QR code to log in:');
+    console.log(`Raw QR Code Data: ${qr}`); // Output the raw QR code data
     qrcode.generate(qr, { small: true }); // Render QR code in the terminal
 });
 
