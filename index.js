@@ -2,7 +2,20 @@ const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal'); // Import qrcode-terminal
 
 const client = new Client({
-    authStrategy: new LocalAuth() // Saves the session, so you don’t need to scan the QR every time
+    authStrategy: new LocalAuth(), // Saves the session, so you don’t need to scan the QR every time
+    puppeteer: {
+        headless: true, // Run in headless mode
+        args: [
+            '--no-sandbox', // Disable the sandbox
+            '--disable-setuid-sandbox', // Disable setuid sandbox
+            '--disable-dev-shm-usage', // Prevent shared memory issues
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process', // Required for some containerized environments
+            '--disable-gpu'
+        ]
+    }
 });
 
 client.on('ready', () => {
