@@ -14,7 +14,8 @@ const client = new Client({
             '--no-zygote',
             '--single-process', // Required for some containerized environments
             '--disable-gpu'
-        ]
+        ],
+        timeout: 120000, // Set the timeout to 120 seconds
     }
 });
 
